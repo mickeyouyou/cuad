@@ -17,6 +17,7 @@
 /*                                                                 INCLUDES */
 
 #include <cuda.h>
+#include <chrono>
 #include <iostream>
 #include "adolc/adoublecuda.h"
 
@@ -64,36 +65,86 @@ cudaError_t kernellaunch(double* inx, double* outy, double* outderiv, int n) {
 }
 
 int main() {
+  cudaFree(0);
+  auto t1 = std::chrono::steady_clock::now();
   int M = 1024;
-  double* deriv = new double[9 * M];
-  double* y = new double[3 * M];
-  double* x = new double[3 * M];
+  // double* deriv = new double[9 * M];
+  // double* y = new double[3 * M];
+  // double* x = new double[3 * M];
+
+  double* x = (double*)malloc(sizeof(double) * 3 * M);
+
+  double* y = (double*)malloc(sizeof(double) * 3 * M);
+  double* deriv = (double*)malloc(sizeof(double) * 9 * M);
+
+  // malloc((void**)&x, sizeof(double) * 3 * M);
+  // malloc((void**)&y, sizeof(double) * 3 * M);
+  // malloc((void**)&deriv, sizeof(double) * 9 * M);
 
   // Initialize x_i
   for (int k = 0; k < M; k++) {
     for (int i = 0; i < 3; ++i) x[k * 3 + i] = i + 1 / (k + 1);
   }
 
+  // std::cout << "Size of malloc to apply:" << sizeof(double) << std::endl;
+  // double* start;
+  // cudaMalloc((void**)&start, sizeof(double));
+
   // Allocate array for independent and dependent variables and Jacobian
   // matrices on GPU
+  // cudaFree(0);
+  // cuInit(0);
+  // cudaSetDevice(0);
   double* devx;
+  auto t11 = std::chrono::steady_clock::now();
   cudaMalloc((void**)&devx, 3 * M * sizeof(double));
+  // 3*1024*8
+  auto t12 = std::chrono::steady_clock::now();
+
+  std::cout << "Total time on First cudaMalloc(ms):"
+            << std::chrono::duration<double>(t12 - t11).count() * 1000
+            << std::endl;
 
   double* devy;
+  auto t21 = std::chrono::steady_clock::now();
   cudaMalloc((void**)&devy, 3 * M * sizeof(double));
+  auto t22 = std::chrono::steady_clock::now();
+
+  std::cout << "Total time on Second cudaMalloc(ms):"
+            << std::chrono::duration<double>(t22 - t21).count() * 1000
+            << std::endl;
 
   double* devderiv;
+  auto t31 = std::chrono::steady_clock::now();
   cudaMalloc((void**)&devderiv, 3 * 3 * M * sizeof(double));
+  auto t32 = std::chrono::steady_clock::now();
+
+  std::cout << "Total time on Third cudaMalloc(ms):"
+            << std::chrono::duration<double>(t32 - t31).count() * 1000
+            << std::endl;
 
   // Copy values of independent variables from host to GPU
   cudaMemcpy(devx, x, sizeof(double) * 3 * M, cudaMemcpyHostToDevice);
 
   // Call function to specify amount of blocks and threads to be used
-  kernellaunch(devx, devy, devderiv, M);
+  // kernellaunch(devx, devy, devderiv, M);
 
   // Copy values of dependent variables and Jacobian matrices from GPU to host
   cudaMemcpy(y, devy, sizeof(double) * 3 * M, cudaMemcpyDeviceToHost);
 
   cudaMemcpy(deriv, devderiv, sizeof(double) * M * 3 * 3,
              cudaMemcpyDeviceToHost);
+
+  cudaDeviceSynchronize();
+  cudaFree(devx);
+  cudaFree(devy);
+  cudaFree(devderiv);
+
+  // cudaDeviceReset();
+
+  auto t2 = std::chrono::steady_clock::now();
+
+  std::cout << "Total time on GPU(ms):"
+            << std::chrono::duration<double>(t2 - t1).count() * 1000
+            << std::endl;
 }
