@@ -3,12 +3,10 @@
  
  ## Performance Comparison Test Data
 
-Jacobian Matrix Computation Based ADOLC
+Jacobian Matrix Computation Based On ADOLC
 
 CPU (first row) and CUDA(second row) test result table:
 
-
-| 左对齐 | 右对齐 | 居中对齐 || | | | | | |
 | :-----:| :----: | :----: |:----: |:----: |:----: |:----: |:----: |:----: |:----: |
 | 1.82727 | 1.9159 | 2.38486 | 2.51743 | 2.193 | 6.74031 | 2.35056 | 2.28936 | 1.72139 | 6.13136 |
 |0.355435 | 0.31505 | 0.303447 | 0.30466 | 0.397284 | 0.399476 | 0.317374 | 0.341977 | 0.304162 | 0.306204|
