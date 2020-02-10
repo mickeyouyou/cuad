@@ -1,7 +1,37 @@
 # cuad
  Automatic Differentiation try with cuda 
+ 
+ ## Performance Comparison Test Data
 
-\emph{The average exeution time of CPU is 2.787844ms, some value of  CUDA is 0.3345069ms, Speed up times 8.33.}
+Jacobian Matrix Computation Based ADOLC
+
+CPU (first row) and CUDA(second row) test result table:
+
+\begin{tabularx}{1.3\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X | }
+ \hline
+ 1.82727 & 1.9159 & 2.38486 & 2.51743 & 2.193 & 6.74031 & 2.35056 & 2.28936 & 1.72139 & 6.13136\\
+ \hline
+ 0.355435 & 0.31505 & 0.303447 & 0.30466 & 0.397284 & 0.399476 & 0.317374 & 0.341977 & 0.304162 & 0.306204\\
+\hline
+\end{tabularx}
+
+|  	|  	|  	|  	|  	|
+|---	|---	|---	|---	|---	|
+|  	|  	|  	|  	|  	|
+|  	|  	|  	|  	|  	|
+|  	|  	|  	|  	|  	|
+
+**The average exeution time of CPU is 2.787844ms, some value of  CUDA is 0.3345069ms, Speed up times 8.33.**
 
 
 Test 
