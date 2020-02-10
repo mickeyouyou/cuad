@@ -68,33 +68,18 @@ int main() {
   cudaFree(0);
   auto t1 = std::chrono::steady_clock::now();
   int M = 1024;
-  // double* deriv = new double[9 * M];
-  // double* y = new double[3 * M];
-  // double* x = new double[3 * M];
-
-  double* x = (double*)malloc(sizeof(double) * 3 * M);
-
-  double* y = (double*)malloc(sizeof(double) * 3 * M);
-  double* deriv = (double*)malloc(sizeof(double) * 9 * M);
-
-  // malloc((void**)&x, sizeof(double) * 3 * M);
-  // malloc((void**)&y, sizeof(double) * 3 * M);
-  // malloc((void**)&deriv, sizeof(double) * 9 * M);
+  double* deriv = new double[9 * M];
+  double* y = new double[3 * M];
+  double* x = new double[3 * M];
 
   // Initialize x_i
   for (int k = 0; k < M; k++) {
     for (int i = 0; i < 3; ++i) x[k * 3 + i] = i + 1 / (k + 1);
   }
 
-  // std::cout << "Size of malloc to apply:" << sizeof(double) << std::endl;
-  // double* start;
-  // cudaMalloc((void**)&start, sizeof(double));
-
   // Allocate array for independent and dependent variables and Jacobian
   // matrices on GPU
   // cudaFree(0);
-  // cuInit(0);
-  // cudaSetDevice(0);
   double* devx;
   auto t11 = std::chrono::steady_clock::now();
   cudaMalloc((void**)&devx, 3 * M * sizeof(double));
