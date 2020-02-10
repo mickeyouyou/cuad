@@ -1,6 +1,7 @@
 # cuad
  Automatic Differentiation try with cuda 
 
+\emph{The average exeution time of CPU is 2.787844ms, some value of  CUDA is 0.3345069ms, Speed up times 8.33.}
 
 
 Test 
