@@ -1,21 +1,3 @@
-/*----------------------------------------------------------------------------
- ADOL-C -- Automatic Differentiation by Overloading in C++
- File:     traceless_cuda.cu
- Revision: $Id$
- Contents: computation of coordinate transform,
-           cuda example described in the manual
-
- Copyright (c) Andrea Walther, Alina Koniaeva
-
- This file is part of ADOL-C. This software is provided as open source.
- Any use, reproduction, or distribution of the software constitutes
- recipient's acceptance of the terms of the accompanying license file.
-
----------------------------------------------------------------------------*/
-
-/****************************************************************************/
-/*                                                                 INCLUDES */
-
 #include <cuda.h>
 #include <chrono>
 #include <iostream>
@@ -79,7 +61,6 @@ int main() {
 
   // Allocate array for independent and dependent variables and Jacobian
   // matrices on GPU
-  // cudaFree(0);
   double* devx;
   auto t11 = std::chrono::steady_clock::now();
   cudaMalloc((void**)&devx, 3 * M * sizeof(double));
@@ -112,7 +93,7 @@ int main() {
   cudaMemcpy(devx, x, sizeof(double) * 3 * M, cudaMemcpyHostToDevice);
 
   // Call function to specify amount of blocks and threads to be used
-  // kernellaunch(devx, devy, devderiv, M);
+  kernellaunch(devx, devy, devderiv, M);
 
   // Copy values of dependent variables and Jacobian matrices from GPU to host
   cudaMemcpy(y, devy, sizeof(double) * 3 * M, cudaMemcpyDeviceToHost);
@@ -124,8 +105,6 @@ int main() {
   cudaFree(devx);
   cudaFree(devy);
   cudaFree(devderiv);
-
-  // cudaDeviceReset();
 
   auto t2 = std::chrono::steady_clock::now();
 
