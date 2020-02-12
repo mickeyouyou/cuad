@@ -9,8 +9,8 @@ Jacobian Matrix Computation Based On ADOLC
 2. 耗时仅包含求导的计算过程部分，不包含结果的获取与打印输出，保持统一标准。
 
 Coordinate Transform Example Codes:
-- CPU version: tapeless_scalar.cpp
-- CUDA version : my_codes.cu
+- CPU version: coordinate_transform/tapeless_scalar.cpp
+- CUDA version : coordinate_transform/my_codes.cu
 
 CPU (first row) and CUDA(second row) test result table:
 
