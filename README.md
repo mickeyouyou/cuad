@@ -1,5 +1,8 @@
 # cuad
  Automatic Differentiation try with cuda 
+
+
+1. Run in apollo docker image.
  
  ## Reference Performance Comparison Test Data
 
